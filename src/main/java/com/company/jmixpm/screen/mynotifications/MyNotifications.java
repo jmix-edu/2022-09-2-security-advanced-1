@@ -2,6 +2,7 @@ package com.company.jmixpm.screen.mynotifications;
 
 import com.company.jmixpm.entity.Notification;
 import com.company.jmixpm.entity.User;
+import com.company.jmixpm.security.NotificationService;
 import io.jmix.core.DataManager;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.ui.action.Action;
@@ -26,6 +27,9 @@ public class MyNotifications extends Screen {
     @Autowired
     private CurrentAuthentication currentAuthentication;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         notificationsDl.setParameter("current_user_id", ((User) currentAuthentication.getUser()).getId());
@@ -40,10 +44,8 @@ public class MyNotifications extends Screen {
             return;
         }
 
-        // set isRead
-        item.setIsRead(true);
-        // save changes
-        dataManager.save(item);
+//        notificationService.markAsRead(item);
+        notificationService.markAsReadEm(item);
 
         // reload the table
         notificationsDl.load();
